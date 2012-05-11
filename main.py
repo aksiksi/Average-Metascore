@@ -1,5 +1,5 @@
 import re
-import urllib2
+import requests
 import time
 
 consoles = ['ps3', 'xbox360', 'ds', '3ds', 'psp', 'pc', 'ios', 'vita']
@@ -15,7 +15,7 @@ for console in sorted(consoles):
     print "\nCurrent console: {0}\n".format(console)
     
     # Find number of pages using first page
-    source = urllib2.urlopen("http://www.metacritic.com/browse/games/score/metascore/all/{0}?sort=desc&tag=supplementary-nav%3Bitem%3B6&page=0".format(console)).read()
+    source = requests.get("http://www.metacritic.com/browse/games/score/metascore/all/{0}?sort=desc&tag=supplementary-nav%3Bitem%3B6&page=0".format(console)).text
     pages = [int(page) for page in re.findall(r'supplementary-nav%3Bitem%3B6&page=(\d+)', source)]
     
     # Determine last page
@@ -26,7 +26,7 @@ for console in sorted(consoles):
     for page in range(0, number_of_pages+1):
         # Get page source
         if page:
-            source = urllib2.urlopen("http://www.metacritic.com/browse/games/score/metascore/all/{0}?sort=desc&tag=supplementary-nav%3Bitem%3B6&page={1}".format(console, page)).read()
+            source = requests.get("http://www.metacritic.com/browse/games/score/metascore/all/{0}?sort=desc&tag=supplementary-nav%3Bitem%3B6&page={1}".format(console, page)).text
         else:
             pass
         

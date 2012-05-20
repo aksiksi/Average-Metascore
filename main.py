@@ -27,8 +27,6 @@ for console in sorted(consoles):
         # Get page source
         if page:
             source = requests.get("http://www.metacritic.com/browse/games/score/metascore/all/{0}?sort=desc&tag=supplementary-nav%3Bitem%3B6&page={1}".format(console, page)).text
-        else:
-            pass
         
         # Get metascores and userscores, convert to ints/floats, then add to original list
         metascores += [int(score) for score in re.findall(r'<span class="data metascore \w+">(\d\d)</span>', source)]
